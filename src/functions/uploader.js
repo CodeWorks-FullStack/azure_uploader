@@ -42,7 +42,7 @@ app.http('uploader', {
 
             // upload blockblobs (aka files)
             uploadables.forEach(f => {
-                const blockBlob = container.getBlockBlobClient(`/images/${Date.now()}_${f.fileName}`)
+                const blockBlob = container.getBlockBlobClient(`images/${Date.now()}_${f.fileName}`)
                 blockBlob.upload(f.file.data, f.length, {
                     blobHTTPHeaders: {
                         blobContentType: f.fileType,
