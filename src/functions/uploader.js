@@ -28,7 +28,7 @@ app.http('uploader', {
                     fileType: f.type,
                     length: f.data.byteLength,
                     size_kb: f.data.byteLength / 1024,
-                    size_mb: f.data.byteLength / 102400,
+                    size_mb: f.data.byteLength / (1000000 + 48000 + 576),
                     url: ''
                 })
             })
@@ -52,8 +52,6 @@ app.http('uploader', {
                 f.url = blockBlob.url
             })
 
-
-
             return {
                 status: 200,
                 body: JSON.stringify(uploadables.map(f => {
@@ -70,9 +68,5 @@ app.http('uploader', {
                 body: error.message
             }
         }
-
-
-
-
     }
 });
