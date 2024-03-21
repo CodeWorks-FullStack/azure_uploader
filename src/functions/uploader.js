@@ -43,9 +43,9 @@ app.http('uploader', {
             // upload blockblobs (aka files)
             uploadables.forEach(f => {
                 const blockBlob = container.getBlockBlobClient(`/images/${Date.now()}_${f.fileName}`)
-                blockBlob.upload(f.file, f.length, {
+                blockBlob.upload(f.file.data, f.length, {
                     blobHTTPHeaders: {
-                        blobContentType: f.type,
+                        blobContentType: f.fileType,
                         blobCacheControl: 'max-age=36000'
                     }
                 })
@@ -56,9 +56,12 @@ app.http('uploader', {
 
             return {
                 status: 200,
-                body: uploadables.map(f => {
+                body: JSON.stringify(uploadables.map(f => {
                     return { url: f.url, size_kb: f.size_kb, size_mb: f.size_mb }
-                })
+                })),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             }
 
         } catch (error) {
